@@ -107,8 +107,8 @@ cs302-labs/
 
 ## Course Information
 - **Course:** CS 302 - Advanced Data Structures
-- **Instructor:** [Your professor's name]
-- **Term:** Spring 2027
+- **Instructor:** Shangyue Zhu
+- **Term:** Winter 2026
 - **Institution:** Central Washington University
 
 ## Academic Integrity
