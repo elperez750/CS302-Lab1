@@ -11,8 +11,44 @@ public class Lab1
     private static boolean problem1Iterative(Node t1, Node t2)
     {
         // Implement me!
-       
-        return true;
+        Queue<Node> nodesToProcess = new LinkedList<>();
+        Set<Integer> uniqueT1Nodes = new HashSet<>();
+        Set<Integer> uniqueT2Nodes = new HashSet<>();
+
+        nodesToProcess.add(t1);
+
+        while(!nodesToProcess.isEmpty()) {
+            Node currentNode = nodesToProcess.poll();
+            if (currentNode.right != null) {
+                nodesToProcess.add(currentNode.right);
+            }
+
+            if (currentNode.left != null) {
+                nodesToProcess.add(currentNode.left);
+            }
+
+            uniqueT1Nodes.add(currentNode.key);
+        }
+
+
+        nodesToProcess.add(t2);
+        while(!nodesToProcess.isEmpty()) {
+            Node currentNode = nodesToProcess.poll();
+            if(currentNode.left != null) {
+                nodesToProcess.add(currentNode.left);
+            }
+
+            if (currentNode.right != null) {
+                nodesToProcess.add(currentNode.right);
+            }
+            uniqueT2Nodes.add(currentNode.key);
+        }
+
+
+        return uniqueT2Nodes.equals(uniqueT1Nodes);
+
+
+
     }
     
     
@@ -24,7 +60,28 @@ public class Lab1
     private static boolean problem1Recursive(Node t1, Node t2)
     {
         // Implement me!
-        return false;
+        Set<Integer> uniqueT1Nodes = new HashSet<>();
+        Set<Integer> uniqueT2Nodes = new HashSet<>();
+
+        problem1Helper(t1, uniqueT1Nodes);
+        problem1Helper(t2, uniqueT2Nodes);
+
+
+
+        return uniqueT1Nodes.equals(uniqueT2Nodes);
+    }
+
+
+    private static void problem1Helper(Node node, Set<Integer> uniqueNodes) {
+
+        if (node == null) {
+            return;
+        }
+
+        problem1Helper(node.left, uniqueNodes);
+        problem1Helper(node.right, uniqueNodes);
+        uniqueNodes.add(node.key);
+
     }
     
     
@@ -33,10 +90,44 @@ public class Lab1
      *  Problem 2: Determine the sum of all node's keys between min and max (inclusive).
         Iterative Solution
      */
+
+
+    /*
+    The solution will make use of the BST structure to efficiently add nodes to search.
+
+    Since we know that all nodes to the left of the current node are smaller and the nodes to the right are greater,
+    we check to see if more nodes from the left or right can be added. This way, we can avoid checking unnecesarry nodes.
+     */
     private static int problem2Iterative(Node root, int min, int max)
     {
         // Implement me!
-        return 0;
+        int runningTotal = 0;
+        Queue<Node> nodesToProcess = new LinkedList<>();
+        nodesToProcess.add(root);
+
+        while(!nodesToProcess.isEmpty()) {
+            // Remove node from the queue
+            Node currentNode = nodesToProcess.poll();
+
+            // This will primarily be to check for the first node that we added blindly
+            // When we add other nodes to the queue, we guarantee they will be in the range due to the conditionals below.
+            if (currentNode.key >= min && currentNode.key <= max) {
+                runningTotal += currentNode.key;
+            }
+
+            // If the current node was greater than the min, then there are possible nodes to process in the left subtree
+            if (currentNode.left != null && currentNode.key > min) {
+                nodesToProcess.add(currentNode.left);
+            }
+
+            // If the current node is less than the max, that means there are potential nodes to process in the right subtree
+            if (currentNode.right != null && currentNode.key < max) {
+                nodesToProcess.add(currentNode.right);
+            }
+
+        }
+
+        return runningTotal;
     }
     
     
@@ -48,7 +139,27 @@ public class Lab1
     private static int problem2Recursive(Node root, int min, int max)
     {
         // Implement me!
-        return 0;
+
+        if (root == null) {
+            return 0;
+        }
+
+
+        int runningTotal = 0;
+
+        if (root.key >= min && root.key <= max) {
+            runningTotal = root.key;
+        }
+
+
+
+        runningTotal += problem2Recursive(root.left, min, max);
+
+        runningTotal += problem2Recursive(root.right, min, max);
+
+
+        return runningTotal;
+
     }
 
 
