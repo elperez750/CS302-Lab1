@@ -10,7 +10,6 @@ public class Lab1
      */
     private static boolean problem1Iterative(Node t1, Node t2)
     {
-        // Implement me!
         Queue<Node> nodesToProcess = new LinkedList<>();
         Set<Integer> uniqueT1Nodes = new HashSet<>();
         Set<Integer> uniqueT2Nodes = new HashSet<>();
@@ -59,7 +58,6 @@ public class Lab1
      */
     private static boolean problem1Recursive(Node t1, Node t2)
     {
-        // Implement me!
         Set<Integer> uniqueT1Nodes = new HashSet<>();
         Set<Integer> uniqueT2Nodes = new HashSet<>();
 
@@ -100,7 +98,6 @@ public class Lab1
      */
     private static int problem2Iterative(Node root, int min, int max)
     {
-        // Implement me!
         int runningTotal = 0;
         Queue<Node> nodesToProcess = new LinkedList<>();
         nodesToProcess.add(root);
@@ -138,31 +135,33 @@ public class Lab1
      */
     private static int problem2Recursive(Node root, int min, int max)
     {
-        // Implement me!
 
         if (root == null) {
             return 0;
         }
 
 
+        // Initialize runningTotal to 0 for every call.
         int runningTotal = 0;
 
+
+        // If the key is within the range (inclusive), then we add the key to the running total
         if (root.key >= min && root.key <= max) {
             runningTotal = root.key;
         }
 
-
+        // If the key is greater than min, that means there could potentially be keys in the range in the left subtree
         if (root.key > min) {
             runningTotal += problem2Recursive(root.left, min, max);
 
         }
 
-
+        // If the key is less than max, that means there could potentially be keys in the range in the right subtree.
         if (root.key < max) {
             runningTotal += problem2Recursive(root.right, min, max);
         }
 
-
+        // After the calls for the specific call stack are done, we return the running total.
         return runningTotal;
 
     }
