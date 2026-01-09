@@ -152,10 +152,15 @@ public class Lab1
         }
 
 
+        if (root.key > min) {
+            runningTotal += problem2Recursive(root.left, min, max);
 
-        runningTotal += problem2Recursive(root.left, min, max);
+        }
 
-        runningTotal += problem2Recursive(root.right, min, max);
+
+        if (root.key < max) {
+            runningTotal += problem2Recursive(root.right, min, max);
+        }
 
 
         return runningTotal;
