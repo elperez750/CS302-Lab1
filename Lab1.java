@@ -10,40 +10,68 @@ public class Lab1
      */
     private static boolean problem1Iterative(Node t1, Node t2)
     {
+        // This will help us process nodes
         Queue<Node> nodesToProcess = new LinkedList<>();
+
+        // This will store unique values of tree 1
         Set<Integer> uniqueT1Nodes = new HashSet<>();
+
+        // This will store unique values of tree 2
         Set<Integer> uniqueT2Nodes = new HashSet<>();
 
+
+        // We start by adding the root to our nodes to process
         nodesToProcess.add(t1);
 
+
         while(!nodesToProcess.isEmpty()) {
+            // Remove top node from queue
             Node currentNode = nodesToProcess.poll();
+
+            // If it has a right child, we add that to be processed
             if (currentNode.right != null) {
                 nodesToProcess.add(currentNode.right);
             }
 
+            // If it has a left child, we add that to be processed.
             if (currentNode.left != null) {
                 nodesToProcess.add(currentNode.left);
             }
 
+            // Add to unique nodes
+            // Since it is a set, there will be no duplicates
             uniqueT1Nodes.add(currentNode.key);
         }
 
 
+        // Now we work on the second tree
         nodesToProcess.add(t2);
+
+
         while(!nodesToProcess.isEmpty()) {
+
+            // Same process, remove top node from queue
             Node currentNode = nodesToProcess.poll();
+
+            // If the node has a left child, we add it to our nodes to process
             if(currentNode.left != null) {
                 nodesToProcess.add(currentNode.left);
             }
 
+            // If the node has a right child, we add it to our nodes to process
             if (currentNode.right != null) {
                 nodesToProcess.add(currentNode.right);
             }
+
+            // Add the node to our set
             uniqueT2Nodes.add(currentNode.key);
+
+
+            // We continue until we have no more nodes to process.
         }
 
-
+        // We return if the two sets are equal
+        // Since the problem does not specify whether letters must have the same occurences, we only check to see if they contain the same letter.
         return uniqueT2Nodes.equals(uniqueT1Nodes);
 
 
@@ -58,27 +86,42 @@ public class Lab1
      */
     private static boolean problem1Recursive(Node t1, Node t2)
     {
+
+        // We define a set of unique nodes for both trees
+        // Similar to the iterative solution
         Set<Integer> uniqueT1Nodes = new HashSet<>();
         Set<Integer> uniqueT2Nodes = new HashSet<>();
 
+
+        // We define two helpers down below to help with the recursion
         problem1Helper(t1, uniqueT1Nodes);
         problem1Helper(t2, uniqueT2Nodes);
 
 
-
+        // We return whether both sets are equal to each other
         return uniqueT1Nodes.equals(uniqueT2Nodes);
     }
 
 
+    // Helper function for recursive solution
     private static void problem1Helper(Node node, Set<Integer> uniqueNodes) {
 
+        // If no node exists, we've reached the bottom of the tree, so we backtrack.
         if (node == null) {
             return;
         }
 
+        // We recursively call the helper function on the left subtree
         problem1Helper(node.left, uniqueNodes);
+
+        // We recursively call the helper function on the right subtree
         problem1Helper(node.right, uniqueNodes);
+
+        // We add the node's value after both recursive calls exit.
         uniqueNodes.add(node.key);
+
+        // We can also add to our set before the recursive calls, since we have checked to see whether the node is null.
+        // Either approach works fine for this case.
 
     }
     
